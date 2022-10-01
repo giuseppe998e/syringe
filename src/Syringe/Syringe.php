@@ -2,9 +2,9 @@
 
 namespace Syringe;
 
+use Syringe\Exception\SyringeException;
 use Syringe\Injector\{BaseInjector, Injector};
 use Syringe\Repository\{BeanRepository, BeanRepositoryFactory};
-use Syringe\Exception\SyringeException;
 
 class Syringe {
     /**

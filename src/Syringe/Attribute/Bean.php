@@ -9,8 +9,7 @@ class Bean {
     public function __construct(
         public bool $primary = false,
         public ?string $name = null, // Alias "qualifier"
-        public bool $singleton = true
-    ) {
+        public bool $singleton = true) {
         $this->method = null;
     }
 

@@ -22,14 +22,11 @@ class BaseBeanRepository implements BeanRepository {
     public function addConfiguration(string $configuration): void {
         $reflect = new \ReflectionClass($configuration);
         $methods = $reflect->getMethods();
-
         foreach ($methods as $method) {
             $bean = $method->getAttributes(Bean::class)[0];
             if (!$bean) continue;
-
             $bean = $bean->newInstance();
             $bean->method = $method;
-
             $class = strval($method->getReturnType());
             $name = $bean->name ?? $method->getName();
             $bucket = $this->beanBuckets[$class] ?? ($this->beanBuckets[$class] = new BeanBucket());
