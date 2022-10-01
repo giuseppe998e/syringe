@@ -3,6 +3,7 @@
 namespace Syringe\Injector;
 
 use Syringe\Attribute\Autowired;
+use Syringe\Attribute\Qualifier;
 use Syringe\Repository\BeanRepositoryFactory;
 
 class BaseInjector implements Injector {
@@ -52,8 +53,11 @@ class BaseInjector implements Injector {
         $parameters = $method->getParameters();
         $paramValues = [];
 
-        foreach ($parameters as $param)
-            $paramValues[] = $this->getBeanInstance($param->getType(), null); // TODO qualifier attribute
+        foreach ($parameters as $param) {
+            $qualifier = $param->getAttributes(Qualifier::class);
+            $qualifier = $qualifier[0]?->newInstance()->name;
+            $paramValues[] = $this->getBeanInstance($param->getType(), $qualifier);
+        }
 
         return $method->invokeArgs($classInstance, $paramValues);
     }
