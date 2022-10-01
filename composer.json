@@ -1,0 +1,24 @@
+{
+   "name": "giuseppe998e/syringe",
+   "description": "Dependency Injection Framework for PHP8",
+   "version": "0.1.0",
+   "type": "library",
+   "license": "Apache-2.0",
+   "homepage": "https://github.com/giuseppe998e/syringe",
+   "authors": [
+      {
+         "name": "Giuseppe Eletto",
+         "email": "giuseppe@eletto.me",
+         "homepage": "https://giuseppe.eletto.me"
+      }
+   ],
+   "autoload": {
+      "psr-4": {
+         "Syringe\\": "src/Syringe"
+      }
+   },
+   "require": {
+      "php": ">=8.0"
+   }
+}
+
