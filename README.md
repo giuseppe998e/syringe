@@ -6,8 +6,6 @@ Dependency Injection Framework for PHP8.
 ```php
 <?php
 
-use Syringe\Attribute\Autowired;
-
 class RandomNumComponent {
     private int $rand;
 
