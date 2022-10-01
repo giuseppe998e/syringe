@@ -48,7 +48,8 @@ class Configuration {
 use Syringe\Attribute\Autowired;
 
 class Component {
-    #[Autowired("getRandomNumComponent")]
+    #[Autowired]
+    // #[Autowired("getRandomNumComponent")]
     // or #[Autowired(qualifier: "getRandomNumComponent")]
     private RandomNumComponent $randomNum;
 
