@@ -16,11 +16,11 @@ class BaseBeanRepository implements BeanRepository {
     }
 
     /**
-     * @param string $class
+     * @param string $configuration
      * @throws \ReflectionException
      */
-    public function addConfiguration(string $class): void {
-        $reflect = new \ReflectionClass($class);
+    public function addConfiguration(string $configuration): void {
+        $reflect = new \ReflectionClass($configuration);
         $methods = $reflect->getMethods();
 
         foreach ($methods as $method) {
@@ -30,10 +30,10 @@ class BaseBeanRepository implements BeanRepository {
             $bean = $bean->newInstance();
             $bean->method = $method;
 
-            $type = strval($method->getReturnType());
-            $qualifier = $bean->name ?? $method->getName();
-            $bucket = $this->beanBuckets[$type] ?? ($this->beanBuckets[$type] = new BeanBucket());
-            $bucket->addBean($qualifier, $bean);
+            $class = strval($method->getReturnType());
+            $name = $bean->name ?? $method->getName();
+            $bucket = $this->beanBuckets[$class] ?? ($this->beanBuckets[$class] = new BeanBucket());
+            $bucket->addBean($name, $bean);
         }
     }
 

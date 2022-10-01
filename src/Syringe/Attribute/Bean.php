@@ -16,11 +16,11 @@ class Bean {
 
     public function hashCode(): int {
         $hash = 12289;
-        if ($this->name) $hash = (($hash << 5) - $hash) + crc32($this->name);
         if ($this->method) {
             $hash = (($hash << 5) - $hash) + crc32($this->method->class);
             $hash = (($hash << 5) - $hash) + crc32($this->method->name);
         }
+        if ($this->name) $hash = (($hash << 5) - $hash) + crc32($this->name);
         $hash = (($hash << 5) - $hash) + crc32($this->primary);
         return (($hash << 5) - $hash) + crc32($this->singleton);
     }

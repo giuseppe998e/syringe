@@ -23,7 +23,7 @@ class BaseInjector implements Injector {
         $classReflect = $parent = new \ReflectionClass($class);
 
         $properties = $classReflect->getProperties();
-        while (($parent = $parent->getParentClass()))
+        while ($parent = $parent->getParentClass())
             $properties = array_merge($properties, $parent->getProperties());
 
         $classInstance = $classReflect->newInstanceWithoutConstructor();
@@ -65,8 +65,7 @@ class BaseInjector implements Injector {
      * @return object
      */
     protected function &getBeanInstance(string $class, ?string $name): object {
-        $repository = BeanRepositoryFactory::getInstance();
-        $bean = $repository->getBean($class, $name);
+        $bean = BeanRepositoryFactory::getInstance()->getBean($class, $name);
         $hashCode = $bean->hashCode();
 
         if ($this->beanInstances[$hashCode])

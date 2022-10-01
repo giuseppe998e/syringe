@@ -4,6 +4,7 @@ namespace Syringe;
 
 use Syringe\Injector\{BaseInjector, Injector};
 use Syringe\Repository\{BeanRepository, BeanRepositoryFactory};
+use Syringe\Exception\SyringeException;
 
 class Syringe {
     /**
@@ -14,11 +15,13 @@ class Syringe {
     /**
      * @param string $class
      * @param mixed ...$args
-     * @throws \ReflectionException
-     * @throws \Syringe\Exception\BeanNotFoundException
      * @return object
+     * @throws \Syringe\Exception\BeanNotFoundException
+     * @throws \Syringe\Exception\SyringeException
+     * @throws \ReflectionException
      */
     public static function &new(string $class, mixed ...$args): object {
+        if (!self::$injector) throw new SyringeException('Synerge has not yet been initialized!');
         return (self::$injector)->spawnClass($class, ...$args);
     }
 
