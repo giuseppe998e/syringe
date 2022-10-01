@@ -21,7 +21,7 @@ class Syringe {
      * @throws \ReflectionException
      */
     public static function &new(string $class, mixed ...$args): object {
-        if (!self::$injector) throw new SyringeException('Synerge has not yet been initialized!');
+        if (!self::$injector) throw new SyringeException('Syringe has not yet been initialized!');
         return (self::$injector)->spawnClass($class, ...$args);
     }
 
