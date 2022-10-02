@@ -19,7 +19,7 @@ class BaseInjector implements Injector {
      * @inheritDoc
      * @throws \ReflectionException
      */
-    public function &spawnClass(string $class, mixed ...$args): object {
+    public function spawnClass(string $class, mixed ...$args): object {
         $classReflect = $parent = new \ReflectionClass($class);
 
         $properties = $classReflect->getProperties();
@@ -48,7 +48,7 @@ class BaseInjector implements Injector {
      * @return object
      * @throws \ReflectionException
      */
-    protected function &getBeanInstance(string $class, ?string $name): object {
+    protected function getBeanInstance(string $class, ?string $name): object {
         $bean = BeanRepositoryFactory::getInstance()->getBean($class, $name);
         $hashCode = $bean->hashCode();
         if ($this->beanInstances[$hashCode]) return $this->beanInstances[$hashCode];

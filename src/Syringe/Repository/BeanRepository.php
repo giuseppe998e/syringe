@@ -10,5 +10,5 @@ interface BeanRepository {
      * @param string|null $name
      * @return Bean
      */
-    public function &getBean(string $class, ?string $name): Bean;
+    public function getBean(string $class, ?string $name): Bean;
 }

@@ -38,8 +38,8 @@ class BaseBeanRepository implements BeanRepository {
      * @inheritDoc
      * @throws BeanNotFoundException
      */
-    public function &getBean(string $class, ?string $name): Bean {
-        $bucket = &$this->beanBuckets[$class];
+    public function getBean(string $class, ?string $name): Bean {
+        $bucket = $this->beanBuckets[$class];
         if ($bucket) return $bucket->getBean($name);
         throw new BeanNotFoundException("There is no Bean for the class \"$class\".");
     }
