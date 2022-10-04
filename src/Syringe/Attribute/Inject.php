@@ -3,7 +3,7 @@
 namespace Syringe\Attribute;
 
 #[\Attribute(\Attribute::TARGET_PROPERTY)]
-class Autowired {
+class Inject {
     public function __construct(
         public ?string $qualifier = null // Alias "name"
     ) { }

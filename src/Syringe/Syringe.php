@@ -3,20 +3,20 @@
 namespace Syringe;
 
 use Syringe\Exception\SyringeException;
-use Syringe\Injector\{BaseInjector, Injector};
-use Syringe\Repository\{BeanRepository, BeanRepositoryFactory};
+use Syringe\Injector\{ComponentInjector, SyringeInjector};
+use Syringe\Repository\{SyringeRepository, SyringeRepositoryFactory};
 
 class Syringe {
     /**
-     * @var Injector|null
+     * @var SyringeInjector|null
      */
-    protected static ?Injector $injector = null;
+    protected static ?SyringeInjector $injector = null;
 
     /**
      * @param string $class
      * @param mixed ...$args
      * @return object
-     * @throws \Syringe\Exception\BeanNotFoundException
+     * @throws \Syringe\Exception\ComponentNotFoundException
      * @throws \Syringe\Exception\SyringeException
      * @throws \ReflectionException
      */
@@ -26,12 +26,12 @@ class Syringe {
     }
 
     /**
-     * @param BeanRepository $repository
-     * @param Injector|null $injector
+     * @param SyringeRepository $repository
+     * @param SyringeInjector|null $injector
      * @return void
      */
-    public static function initialize(BeanRepository $repository, ?Injector $injector = null): void {
-        BeanRepositoryFactory::register($repository);
-        self::$injector = $injector ?? new BaseInjector();
+    public static function initialize(SyringeRepository $repository, ?SyringeInjector $injector = null): void {
+        SyringeRepositoryFactory::register($repository);
+        self::$injector = $injector ?? new ComponentInjector();
     }
 }

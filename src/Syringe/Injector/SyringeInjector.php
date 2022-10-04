@@ -2,7 +2,7 @@
 
 namespace Syringe\Injector;
 
-interface Injector {
+interface SyringeInjector {
     /**
      * @param string $class
      * @return object
@@ -10,8 +10,8 @@ interface Injector {
     public function spawnClass(string $class): object;
 
     /**
-     * @param \ReflectionMethod $method
      * @param object $classInstance
+     * @param \ReflectionMethod $method
      * @return mixed
      */
     public function invokeMethod(object $classInstance, \ReflectionMethod $method): mixed;
