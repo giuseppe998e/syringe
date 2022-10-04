@@ -26,11 +26,11 @@ class ComponentBucket {
      * @param Component $component
      */
     public function addComponent(string $name, Component $component): void {
-        $this->components[$name] = $component;
-        if (1 === count($this->components))
-            $this->first = &$this->components[$name];
+        if (!count($this->components))
+            $this->first = $component;
         if ($component->isPrimary() && !$this->primary)
-            $this->primary = &$this->components[$name];
+            $this->primary = $component;
+        $this->components[$name] = $component;
     }
 
     /**
