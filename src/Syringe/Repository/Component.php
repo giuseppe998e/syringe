@@ -2,9 +2,9 @@
 
 namespace Syringe\Repository;
 
-use Reflector;
 use ReflectionClass;
 use ReflectionMethod;
+use Reflector;
 use Syringe\Attribute\Provides;
 use Syringe\Exception\SyringeException;
 

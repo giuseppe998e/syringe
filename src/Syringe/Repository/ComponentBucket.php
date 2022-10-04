@@ -2,7 +2,6 @@
 
 namespace Syringe\Repository;
 
-use Syringe\Attribute\Provides;
 use Syringe\Exception\ComponentNotFoundException;
 
 class ComponentBucket {
