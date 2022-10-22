@@ -1,5 +1,5 @@
 # Syringe
-Dependency Injection Framework for PHP8.
+Dependency injection library for PHP8.
 
 ## Usage
 #### The configuration class:
@@ -76,10 +76,10 @@ class TestClass {
 use Syringe\Syringe;
 use Syringe\Repository\ComponentRepository;
 
-$beanRepo = new ComponentRepository();
-$beanRepo->addConfiguration(DbConfiguration::class);
-// $beanRepo->addConfiguration(OtherConfiguration::class);
-Syringe::initialize($beanRepo);
+$repo = new ComponentRepository();
+$repo->addConfiguration(DbConfiguration::class);
+// $repo->addConfiguration(OtherConfiguration::class);
+Syringe::initialize($repo);
 
 $testClass = Syringe::new(TestClass::class);
 $user = $testClass->getUserById(1);
