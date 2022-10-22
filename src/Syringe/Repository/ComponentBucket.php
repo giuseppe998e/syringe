@@ -25,10 +25,12 @@ class ComponentBucket {
      * @param Component $component
      */
     public function addComponent(string $name, Component $component): void {
-        if (!count($this->components))
+        if (!count($this->components)) {
             $this->first = $component;
-        if ($component->isPrimary() && !$this->primary)
+        }
+        if (!$this->primary && $component->isPrimary()) {
             $this->primary = $component;
+        }
         $this->components[$name] = $component;
     }
 
@@ -38,14 +40,19 @@ class ComponentBucket {
      * @throws ComponentNotFoundException
      */
     public function getComponent(?string $name): Component {
-        if (1 === count($this->components)) return $this->first;
+        if (1 === count($this->components)) {
+            return $this->first;
+        }
         if (!$name) {
-            if ($this->primary) return $this->primary;
+            if ($this->primary) {
+                return $this->primary;
+            }
             $qualifiers = implode(', ', array_keys($this->components));
             throw new ComponentNotFoundException("No primary Provides has been set, must choose a qualifier from: $qualifiers");
         }
-        $component = $this->components[$name];
-        if ($component) return $component;
+        if ($component = $this->components[$name]) {
+            return $component;
+        }
         throw new ComponentNotFoundException("There is no Provides with name \"$name\".");
     }
 }
