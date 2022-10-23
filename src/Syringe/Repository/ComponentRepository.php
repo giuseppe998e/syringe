@@ -52,8 +52,8 @@ class ComponentRepository implements SyringeRepository {
      * @throws ComponentNotFoundException
      */
     public function getComponent(string $class, ?string $name): Component {
-        if ($bucket = $this->buckets[$class]) {
-            return $bucket->getComponent($name);
+        if (array_key_exists($class, $this->buckets)) {
+            return $this->buckets[$class]->getComponent($name);
         }
         throw new ComponentNotFoundException("There is no Provides for the class \"$class\".");
     }
