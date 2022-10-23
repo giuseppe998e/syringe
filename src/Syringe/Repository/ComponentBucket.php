@@ -50,8 +50,9 @@ class ComponentBucket {
             $qualifiers = implode(', ', array_keys($this->components));
             throw new ComponentNotFoundException("No primary Provides has been set, must choose a qualifier from: $qualifiers");
         }
-        if ($component = $this->components[$name]) {
-            return $component;
+
+        if (array_key_exists($name, $this->components)) {
+            return $this->components[$name];
         }
         throw new ComponentNotFoundException("There is no Provides with name \"$name\".");
     }
