@@ -9,7 +9,6 @@ use Syringe\Mockups\MockupComponent;
 use Syringe\Mockups\MockupConfiguration;
 use Syringe\Mockups\RandomGen;
 use Syringe\Repository\ComponentRepository;
-use Syringe\Repository\SyringeRepository;
 use Syringe\Repository\SyringeRepositoryFactory;
 
 class ComponentInjectorTest extends TestCase {
