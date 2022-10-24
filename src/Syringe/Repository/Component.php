@@ -13,44 +13,48 @@ class Component {
      * @param bool $primary
      * @param string|null $name
      * @param bool $singleton
-     * @param \Reflector $reflector
+     * @param Reflector $reflector
      */
     public function __construct(
-        protected bool $primary,
-        protected ?string $name,
-        protected bool $singleton,
+        protected bool      $primary,
+        protected ?string   $name,
+        protected bool      $singleton,
         protected Reflector $reflector
     ) { }
 
     /**
-     * @throws SyringeException
      * @return string
+     * @throws SyringeException
      */
     public function getName(): string {
         if (!$this->name) {
-            if ($this->reflector instanceof ReflectionMethod || $this->reflector instanceof ReflectionClass)
+            if ($this->reflector instanceof ReflectionMethod || $this->reflector instanceof ReflectionClass) {
                 $this->name = $this->reflector->getName();
-            else throw new SyringeException('Malformed component.');
+            } else {
+                throw new SyringeException('Malformed component.');
+            }
         }
         return $this->name;
     }
 
     /**
-     * @return \Reflector
+     * @return Reflector
      */
     public function getReflector(): Reflector {
         return $this->reflector;
     }
 
     /**
-     * @throws SyringeException
      * @return string
+     * @throws SyringeException
      */
     public function getType(): string {
-        if ($this->reflector instanceof ReflectionMethod)
-            return strval($this->reflector->getReturnType());
-        if ($this->reflector instanceof ReflectionClass)
+        if ($this->reflector instanceof ReflectionMethod) {
+            return (string)$this->reflector->getReturnType();
+        }
+        if ($this->reflector instanceof ReflectionClass) {
             return $this->reflector->getName();
+        }
         throw new SyringeException('Malformed component.');
     }
 
@@ -70,7 +74,7 @@ class Component {
 
     /**
      * @param Provides $provides
-     * @param \Reflector $reflection
+     * @param Reflector $reflection
      * @return Component
      */
     public static function fromProvidesAttribute(Provides $provides, Reflector $reflection): self {
