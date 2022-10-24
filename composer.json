@@ -14,12 +14,12 @@
    ],
    "autoload": {
       "psr-4": {
-         "Syringe\\": "src/Syringe"
+         "Syringe\\": "src/Syringe/"
       }
    },
    "autoload-dev": {
       "psr-4": {
-         "Syringe\\" : "tests/Syringe"
+         "Syringe\\" : "tests/Syringe/"
       }
    },
    "require": {
