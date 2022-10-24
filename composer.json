@@ -17,6 +17,11 @@
          "Syringe\\": "src/Syringe"
       }
    },
+   "autoload-dev": {
+      "psr-4": {
+         "Syringe\\" : "tests/Syringe"
+      }
+   },
    "require": {
       "php": ">=8.0"
    },
