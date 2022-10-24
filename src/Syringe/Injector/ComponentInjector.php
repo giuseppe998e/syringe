@@ -31,8 +31,9 @@ class ComponentInjector implements SyringeInjector {
         }
 
         foreach ($properties as $property) {
-            if ($autowired = $property->getAttributes(Inject::class)[0]) {
-                $autowired = $autowired->newInstance();
+            $autowired = $property->getAttributes(Inject::class);
+            if (count($autowired)) {
+                $autowired = $autowired[0]->newInstance();
                 $componentInstance = $this->getComponentInstance($property->getType(), $autowired->qualifier);
                 $property->setAccessible(true);
                 $property->setValue($classInstance, $componentInstance);
@@ -56,7 +57,7 @@ class ComponentInjector implements SyringeInjector {
         $paramValues = [];
         foreach ($parameters as $param) {
             $qualifier = $param->getAttributes(Qualifier::class);
-            $qualifier = $qualifier[0]?->newInstance()->name;
+            $qualifier = array_shift($qualifier)?->newInstance()->name;
             $paramValues[] = $this->getComponentInstance($param->getType(), $qualifier);
         }
         return $method->invokeArgs($classInstance, $paramValues);
