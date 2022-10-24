@@ -18,12 +18,12 @@ class ComponentTest extends TestCase {
 
     public function testReflectionClassGetName(): void {
         $class = new Component(false, null, true, $this->reflectionClass);
-        $this->assertEquals(ComponentTest::class, $class->getName());
+        $this->assertEquals(self::class, $class->getName());
     }
 
     public function testReflectionClassGetType(): void {
         $class = new Component(false, null, true, $this->reflectionClass);
-        $this->assertEquals(ComponentTest::class, $class->getType());
+        $this->assertEquals(self::class, $class->getType());
         $this->assertEquals($class->getName(), $class->getType());
     }
 
@@ -39,7 +39,7 @@ class ComponentTest extends TestCase {
 
     public function testReflectionMethodGetType(): void {
         $class = new Component(false, null, true, $this->reflectionMethod);
-        $this->assertEquals(ComponentTest::class, $class->getType());
+        $this->assertEquals(self::class, $class->getType());
     }
 
     public function testReflectionMethodGetReflector(): void {
