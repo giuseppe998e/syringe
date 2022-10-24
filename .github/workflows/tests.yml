@@ -10,7 +10,7 @@ jobs:
       - name: PHPUnit Tests
         uses: php-actions/phpunit@v3
         with:
-          configuration: "tests/phpunit.xml"
+          configuration: "phpunit.xml"
           bootstrap: "vendor/autoload.php"
           php_version: "8.0"
           args: "--coverage-text"
