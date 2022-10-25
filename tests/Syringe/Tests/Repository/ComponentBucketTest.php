@@ -1,18 +1,19 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Syringe\Tests\Repository;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
 use Syringe\Exception\ComponentNotFoundException;
-use Syringe\Repository\Component;
-use Syringe\Repository\ComponentBucket;
+use Syringe\Repository\{Component, ComponentBucket};
 
 class ComponentBucketTest extends TestCase {
     protected static Component $mockComponent;
     protected static Component $mockPrimaryComponent;
 
     public static function setUpBeforeClass(): void {
-        $reflection = new \ReflectionClass(new class { });
+        $reflection = new ReflectionClass(new class {
+        });
 
         self::$mockComponent = new Component(false, "AnonymousClass#1", false, $reflection);
         self::$mockPrimaryComponent = new Component(true, "AnonymousClass#Primary", false, $reflection);

@@ -2,8 +2,7 @@
 
 namespace Syringe\Mockups;
 
-use Syringe\Attribute\Provides;
-use Syringe\Attribute\Qualifier;
+use Syringe\Attribute\{Provides, Qualifier};
 
 class MockupConfiguration {
     #[Provides(primary: true)]
