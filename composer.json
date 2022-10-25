@@ -1,7 +1,7 @@
 {
    "name": "giuseppe998e/syringe",
    "description": "Dependency injection library for PHP8",
-   "version": "1.0.3",
+   "version": "1.0.4",
    "type": "library",
    "license": "Apache-2.0",
    "homepage": "https://github.com/giuseppe998e/syringe",
