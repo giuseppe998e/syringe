@@ -10,9 +10,9 @@ interface SyringeInjector {
     public function spawnClass(string $class): object;
 
     /**
-     * @param object $classInstance
+     * @param object $class
      * @param \ReflectionMethod $method
      * @return mixed
      */
-    public function invokeMethod(object $classInstance, \ReflectionMethod $method): mixed;
+    public function invokeMethod(object $class, \ReflectionMethod $method): mixed;
 }

@@ -4,7 +4,7 @@ namespace Syringe\Injector;
 
 use Syringe\Attribute\{Inject, Qualifier};
 use Syringe\Exception\SyringeException;
-use Syringe\Repository\SyringeRepositoryFactory;
+use Syringe\Repository\{Component, SyringeRepositoryFactory};
 
 class ComponentInjector implements SyringeInjector {
     /**
@@ -22,29 +22,30 @@ class ComponentInjector implements SyringeInjector {
      * @throws SyringeException
      */
     public function spawnClass(string $class): object {
-        $classReflect = $parent = new \ReflectionClass($class);
-        $classInstance = $classReflect->newInstanceWithoutConstructor();
+        $reflector = $parent = new \ReflectionClass($class);
+        $instance = $reflector->newInstanceWithoutConstructor();
 
-        $properties = $classReflect->getProperties();
+        $properties = $reflector->getProperties();
         while ($parent = $parent->getParentClass()) {
             $properties = array_merge($properties, $parent->getProperties());
         }
 
         foreach ($properties as $property) {
-            $autowired = $property->getAttributes(Inject::class);
-            if (count($autowired)) {
-                $autowired = $autowired[0]->newInstance();
-                $componentInstance = $this->getComponentInstance($property->getType(), $autowired->qualifier);
+            $injects = $property->getAttributes(Inject::class);
+            if (count($injects)) {
+                $inject = $injects[0]->newInstance();
+                $componentInstance = $this->getComponentInstance($property->getType(), $inject->qualifier);
+
                 $property->setAccessible(true);
-                $property->setValue($classInstance, $componentInstance);
+                $property->setValue($instance, $componentInstance);
             }
         }
 
-        if ($constructor = $classReflect->getConstructor()) {
-            $this->invokeMethod($classInstance, $constructor);
+        if ($constructor = $reflector->getConstructor()) {
+            $this->invokeMethod($instance, $constructor);
         }
 
-        return $classInstance;
+        return $instance;
     }
 
     /**
@@ -52,15 +53,18 @@ class ComponentInjector implements SyringeInjector {
      * @throws \ReflectionException
      * @throws SyringeException
      */
-    public function invokeMethod(object $classInstance, \ReflectionMethod $method): mixed {
+    public function invokeMethod(object $class, \ReflectionMethod $method): mixed {
         $parameters = $method->getParameters();
         $paramValues = [];
+
         foreach ($parameters as $param) {
             $qualifier = $param->getAttributes(Qualifier::class);
             $qualifier = array_shift($qualifier)?->newInstance()->name;
+
             $paramValues[] = $this->getComponentInstance($param->getType(), $qualifier);
         }
-        return $method->invokeArgs($classInstance, $paramValues);
+
+        return $method->invokeArgs($class, $paramValues);
     }
 
     /**
@@ -75,24 +79,35 @@ class ComponentInjector implements SyringeInjector {
         if (!$component) {
             throw new SyringeException('No SyringeRepository instance found.');
         }
-        if (isset($this->instances[$component])) {
+
+        if (!empty($this->instances[$component])) {
             return $this->instances[$component];
         }
 
-        $reflection = $component->getReflector();
-        if ($reflection instanceof \ReflectionMethod) {
-            $configInstance = $this->spawnClass($reflection->class);
-            $componentInstance = $this->invokeMethod($configInstance, $reflection);
-        } elseif ($reflection instanceof \ReflectionClass) {
-            $componentInstance = $this->spawnClass($reflection->getName());
-        } else {
-            throw new SyringeException("Invalid \"$class" . ($name ? "::$name" : '') . "\" component.");
-        }
+        $instance = $this->newComponentInstance($component);
 
         if ($component->isSingleton()) {
-            $this->instances[$component] = $componentInstance;
+            $this->instances[$component] = $instance;
         }
 
-        return $componentInstance;
+        return $instance;
+    }
+
+    /**
+     * @param Component $component
+     * @return object
+     * @throws SyringeException
+     * @throws \ReflectionException
+     */
+    protected function newComponentInstance(Component $component): object {
+        $reflector = $component->getReflector();
+        if ($reflector instanceof \ReflectionMethod) {
+            $configInstance = $this->spawnClass($reflector->class);
+            return $this->invokeMethod($configInstance, $reflector);
+        }
+        if ($reflector instanceof \ReflectionClass) {
+            return $this->spawnClass($reflector->getName());
+        }
+        throw new SyringeException("Invalid \"{$component->getName()}\" component.");
     }
 }

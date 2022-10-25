@@ -16,33 +16,34 @@ class ComponentRepository implements SyringeRepository {
     }
 
     /**
-     * @param string[] $configurations
+     * @param string[] $classes
      * @throws \ReflectionException
      * @throws \Syringe\Exception\SyringeException
      */
-    public function addConfigurations(string ...$configurations): void {
-        foreach ($configurations as $config) {
+    public function addConfigurations(string ...$classes): void {
+        foreach ($classes as $config) {
             $this->addConfiguration($config);
         }
     }
 
     /**
-     * @param string $configuration
+     * @param string $class
      * @throws \ReflectionException
      * @throws \Syringe\Exception\SyringeException
      */
-    public function addConfiguration(string $configuration): void {
-        $reflect = new \ReflectionClass($configuration);
-        $methods = $reflect->getMethods();
-        foreach ($methods as $method) {
-            if ($provides = $method->getAttributes(Provides::class)[0]) {
-                $providesInstance = $provides->newInstance();
-                $component = Component::fromProvidesAttribute($providesInstance, $method);
-                $class = $component->getType();
-                $name = $component->getName();
+    public function addConfiguration(string $class): void {
+        $reflector = new \ReflectionClass($class);
+        $methods = $reflector->getMethods();
 
-                $bucket = $this->buckets[$class] ??= new ComponentBucket();
-                $bucket->addComponent($name, $component);
+        foreach ($methods as $method) {
+            $provides = $method->getAttributes(Provides::class);
+            if (count($provides)) {
+                $provide = $provides[0]->newInstance();
+                $component = Component::fromProvidesAttribute($provide, $method);
+                $type = $component->getType();
+
+                $bucket = $this->buckets[$type] ??= new ComponentBucket();
+                $bucket->addComponent($component);
             }
         }
     }

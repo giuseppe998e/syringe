@@ -21,17 +21,20 @@ class ComponentBucket {
     }
 
     /**
-     * @param string $name
      * @param Component $component
+     * @throws \Syringe\Exception\SyringeException
      */
-    public function addComponent(string $name, Component $component): void {
+    public function addComponent(Component $component): void {
         if (!count($this->components)) {
             $this->first = $component;
         }
+
         if (!$this->primary && $component->isPrimary()) {
             $this->primary = $component;
         }
-        $this->components[$name] = $component;
+
+        $key = $component->getName();
+        $this->components[$key] = $component;
     }
 
     /**
@@ -43,6 +46,7 @@ class ComponentBucket {
         if (1 === count($this->components)) {
             return $this->first;
         }
+
         if (!$name) {
             if ($this->primary) {
                 return $this->primary;

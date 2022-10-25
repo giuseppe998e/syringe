@@ -23,6 +23,13 @@ class Component {
     ) { }
 
     /**
+     * @return bool
+     */
+    public function isPrimary(): bool {
+        return $this->primary;
+    }
+
+    /**
      * @return string
      * @throws SyringeException
      */
@@ -35,13 +42,6 @@ class Component {
             }
         }
         return $this->name;
-    }
-
-    /**
-     * @return Reflector
-     */
-    public function getReflector(): Reflector {
-        return $this->reflector;
     }
 
     /**
@@ -61,15 +61,15 @@ class Component {
     /**
      * @return bool
      */
-    public function isPrimary(): bool {
-        return $this->primary;
+    public function isSingleton(): bool {
+        return $this->singleton;
     }
 
     /**
-     * @return bool
+     * @return Reflector
      */
-    public function isSingleton(): bool {
-        return $this->singleton;
+    public function getReflector(): Reflector {
+        return $this->reflector;
     }
 
     /**
