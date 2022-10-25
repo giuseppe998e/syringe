@@ -14,31 +14,31 @@ class ComponentBucketTest extends TestCase {
     public static function setUpBeforeClass(): void {
         $reflection = new \ReflectionClass(new class { });
 
-        self::$mockComponent = new Component(false, "AnonymousClass", false, $reflection);
-        self::$mockPrimaryComponent = new Component(true, "AnonymousClass", false, $reflection);
+        self::$mockComponent = new Component(false, "AnonymousClass#1", false, $reflection);
+        self::$mockPrimaryComponent = new Component(true, "AnonymousClass#Primary", false, $reflection);
     }
 
     public function testGetComponent(): void {
         $bucket = new ComponentBucket();
 
         // Get first/unique component
-        $bucket->addComponent("AnonymousComp#1", self::$mockComponent);
+        $bucket->addComponent(self::$mockComponent);
         $this->assertEquals(self::$mockComponent, $bucket->getComponent(null));
 
         // Get a no-name component W/O a given primary
-        $bucket->addComponent("AnonymousComp#2", self::$mockComponent);
+        $bucket->addComponent(self::$mockComponent);
         $this->expectException(ComponentNotFoundException::class);
         $this->assertEquals(self::$mockComponent, $bucket->getComponent(null));
 
         // Get a no-name component WITH a given primary
-        $bucket->addComponent("AnonymousComp#3", self::$mockPrimaryComponent);
+        $bucket->addComponent(self::$mockPrimaryComponent);
         $this->assertEquals(self::$mockPrimaryComponent, $bucket->getComponent(null));
 
         // Get a named component
-        $this->assertEquals(self::$mockComponent, $bucket->getComponent("AnonymousComp#2"));
+        $this->assertEquals(self::$mockComponent, $bucket->getComponent("AnonymousClass#1"));
 
         // Get an unknown component
         $this->expectException(ComponentNotFoundException::class);
-        $this->assertEquals(self::$mockComponent, $bucket->getComponent("AnonymousComp#unknown"));
+        $bucket->getComponent("AnonymousClass#unknown");
     }
 }
