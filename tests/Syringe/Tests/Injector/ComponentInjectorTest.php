@@ -1,15 +1,14 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Syringe\Tests\Injector;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
+use ReflectionMethod;
 use Syringe\Attribute\Qualifier;
 use Syringe\Injector\ComponentInjector;
-use Syringe\Mockups\MockupComponent;
-use Syringe\Mockups\MockupConfiguration;
-use Syringe\Mockups\RandomGen;
-use Syringe\Repository\ComponentRepository;
-use Syringe\Repository\SyringeRepositoryFactory;
+use Syringe\Mockups\{MockupComponent, MockupConfiguration, RandomGen};
+use Syringe\Repository\{ComponentRepository, SyringeRepositoryFactory};
 
 class ComponentInjectorTest extends TestCase {
     public function setUp(): void {
@@ -22,7 +21,7 @@ class ComponentInjectorTest extends TestCase {
         $injector = new ComponentInjector();
 
         // Not existent component
-        $this->expectException(\ReflectionException::class);
+        $this->expectException(ReflectionException::class);
         $injector->spawnClass("NonExistent\\Module\\UnknownComponent");
 
         // Mockup component
@@ -43,9 +42,9 @@ class ComponentInjectorTest extends TestCase {
     public function testInvokeMethod(): void {
         $injector = new ComponentInjector();
 
-        $mockupPrimarySingletonRandFn = new \ReflectionMethod($this, "mockupPrimarySingletonRandFn");
-        $mockupSingletonRandFn = new \ReflectionMethod($this, "mockupSingletonRandFn");
-        $mockupOneTimeRandFn = new \ReflectionMethod($this, "mockupOneTimeRandFn");
+        $mockupPrimarySingletonRandFn = new ReflectionMethod($this, "mockupPrimarySingletonRandFn");
+        $mockupSingletonRandFn = new ReflectionMethod($this, "mockupSingletonRandFn");
+        $mockupOneTimeRandFn = new ReflectionMethod($this, "mockupOneTimeRandFn");
 
         // Test singleton invoked methods
         $primarySingletonRand = $injector->invokeMethod($this, $mockupPrimarySingletonRandFn);

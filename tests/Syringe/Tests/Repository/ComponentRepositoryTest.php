@@ -1,18 +1,18 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Syringe\Tests\Repository;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionException;
 use Syringe\Exception\ComponentNotFoundException;
-use Syringe\Mockups\MockupConfiguration;
-use Syringe\Mockups\RandomGen;
+use Syringe\Mockups\{MockupConfiguration, RandomGen};
 use Syringe\Repository\ComponentRepository;
 
 class ComponentRepositoryTest extends TestCase {
     public function testAddConfiguration(): void {
         $repository = new ComponentRepository();
 
-        $this->expectException(\ReflectionException::class);
+        $this->expectException(ReflectionException::class);
         $repository->addConfiguration("NonExistent\\Module\\UnknownConfiguration");
 
         $repository->addConfiguration(MockupConfiguration::class);

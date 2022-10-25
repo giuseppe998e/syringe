@@ -1,18 +1,21 @@
-<?php declare(strict_types = 1);
+<?php declare(strict_types=1);
 
 namespace Syringe\Tests\Repository;
 
 use PHPUnit\Framework\TestCase;
+use ReflectionClass;
+use ReflectionMethod;
+use RuntimeException;
 use Syringe\Repository\Component;
 
 class ComponentTest extends TestCase {
-    protected ?\ReflectionClass $reflectionClass = null;
-    protected ?\ReflectionMethod $reflectionMethod = null;
+    protected ?ReflectionClass $reflectionClass = null;
+    protected ?ReflectionMethod $reflectionMethod = null;
 
     public function setUp(): void {
         if (!($this->reflectionClass && $this->reflectionMethod)) {
-            $this->reflectionClass = new \ReflectionClass($this);
-            $this->reflectionMethod = new \ReflectionMethod($this, "reflectionTestMethod");
+            $this->reflectionClass = new ReflectionClass($this);
+            $this->reflectionMethod = new ReflectionMethod($this, "reflectionTestMethod");
         }
     }
 
@@ -50,6 +53,6 @@ class ComponentTest extends TestCase {
     // Mockup method(s)
 
     private function reflectionTestMethod(): ComponentTest {
-        throw new \RuntimeException("Not Implemented!");
+        throw new RuntimeException("Not Implemented!");
     }
 }
