@@ -10,17 +10,18 @@ use Syringe\Exception\SyringeException;
 
 class Component {
     /**
-     * @param bool $primary
+     * @param bool        $primary
      * @param string|null $name
-     * @param bool $singleton
-     * @param Reflector $reflector
+     * @param bool        $singleton
+     * @param Reflector   $reflector
      */
     public function __construct(
         protected bool      $primary,
         protected ?string   $name,
         protected bool      $singleton,
         protected Reflector $reflector
-    ) { }
+    ) {
+    }
 
     /**
      * @return bool
@@ -73,8 +74,9 @@ class Component {
     }
 
     /**
-     * @param Provides $provides
+     * @param Provides  $provides
      * @param Reflector $reflection
+     *
      * @return Component
      */
     public static function fromProvidesAttribute(Provides $provides, Reflector $reflection): self {

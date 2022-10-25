@@ -2,8 +2,10 @@
 
 namespace Syringe\Repository;
 
+use ReflectionClass;
+use ReflectionException;
 use Syringe\Attribute\Provides;
-use Syringe\Exception\ComponentNotFoundException;
+use Syringe\Exception\{ComponentNotFoundException, SyringeException};
 
 class ComponentRepository implements SyringeRepository {
     /**
@@ -17,8 +19,9 @@ class ComponentRepository implements SyringeRepository {
 
     /**
      * @param string[] $classes
-     * @throws \ReflectionException
-     * @throws \Syringe\Exception\SyringeException
+     *
+     * @throws ReflectionException
+     * @throws SyringeException
      */
     public function addConfigurations(string ...$classes): void {
         foreach ($classes as $config) {
@@ -28,11 +31,12 @@ class ComponentRepository implements SyringeRepository {
 
     /**
      * @param string $class
-     * @throws \ReflectionException
-     * @throws \Syringe\Exception\SyringeException
+     *
+     * @throws ReflectionException
+     * @throws SyringeException
      */
     public function addConfiguration(string $class): void {
-        $reflector = new \ReflectionClass($class);
+        $reflector = new ReflectionClass($class);
         $methods = $reflector->getMethods();
 
         foreach ($methods as $method) {

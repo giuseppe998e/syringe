@@ -2,7 +2,7 @@
 
 namespace Syringe\Repository;
 
-use Syringe\Exception\ComponentNotFoundException;
+use Syringe\Exception\{ComponentNotFoundException, SyringeException};
 
 class ComponentBucket {
     /**
@@ -22,7 +22,8 @@ class ComponentBucket {
 
     /**
      * @param Component $component
-     * @throws \Syringe\Exception\SyringeException
+     *
+     * @throws SyringeException
      */
     public function addComponent(Component $component): void {
         if (!count($this->components)) {
@@ -39,6 +40,7 @@ class ComponentBucket {
 
     /**
      * @param string|null $name
+     *
      * @return Component
      * @throws ComponentNotFoundException
      */

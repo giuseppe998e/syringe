@@ -2,27 +2,31 @@
 
 namespace Syringe\Injector;
 
+use ReflectionClass;
+use ReflectionException;
+use ReflectionMethod;
 use Syringe\Attribute\{Inject, Qualifier};
 use Syringe\Exception\SyringeException;
 use Syringe\Repository\{Component, SyringeRepositoryFactory};
+use WeakMap;
 
 class ComponentInjector implements SyringeInjector {
     /**
-     * @var \WeakMap
+     * @var WeakMap
      */
-    protected \WeakMap $instances;
+    protected WeakMap $instances;
 
     public function __construct() {
-        $this->instances = new \WeakMap();
+        $this->instances = new WeakMap();
     }
 
     /**
      * @inheritDoc
-     * @throws \ReflectionException
+     * @throws ReflectionException
      * @throws SyringeException
      */
     public function spawnClass(string $class): object {
-        $reflector = $parent = new \ReflectionClass($class);
+        $reflector = $parent = new ReflectionClass($class);
         $instance = $reflector->newInstanceWithoutConstructor();
 
         $properties = $reflector->getProperties();
@@ -50,10 +54,10 @@ class ComponentInjector implements SyringeInjector {
 
     /**
      * @inheritDoc
-     * @throws \ReflectionException
+     * @throws ReflectionException
      * @throws SyringeException
      */
-    public function invokeMethod(object $class, \ReflectionMethod $method): mixed {
+    public function invokeMethod(object $class, ReflectionMethod $method): mixed {
         $parameters = $method->getParameters();
         $paramValues = [];
 
@@ -68,11 +72,12 @@ class ComponentInjector implements SyringeInjector {
     }
 
     /**
-     * @param string $class
+     * @param string      $class
      * @param string|null $name
+     *
      * @return object
      * @throws SyringeException
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     protected function getComponentInstance(string $class, ?string $name): object {
         $component = SyringeRepositoryFactory::getInstance()?->getComponent($class, $name);
@@ -95,17 +100,18 @@ class ComponentInjector implements SyringeInjector {
 
     /**
      * @param Component $component
+     *
      * @return object
      * @throws SyringeException
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     protected function newComponentInstance(Component $component): object {
         $reflector = $component->getReflector();
-        if ($reflector instanceof \ReflectionMethod) {
+        if ($reflector instanceof ReflectionMethod) {
             $configInstance = $this->spawnClass($reflector->class);
             return $this->invokeMethod($configInstance, $reflector);
         }
-        if ($reflector instanceof \ReflectionClass) {
+        if ($reflector instanceof ReflectionClass) {
             return $this->spawnClass($reflector->getName());
         }
         throw new SyringeException("Invalid \"{$component->getName()}\" component.");

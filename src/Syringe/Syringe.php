@@ -2,7 +2,8 @@
 
 namespace Syringe;
 
-use Syringe\Exception\SyringeException;
+use ReflectionException;
+use Syringe\Exception\{ComponentNotFoundException, SyringeException};
 use Syringe\Injector\{ComponentInjector, SyringeInjector};
 use Syringe\Repository\{SyringeRepository, SyringeRepositoryFactory};
 
@@ -14,10 +15,11 @@ class Syringe {
 
     /**
      * @param string $class
+     *
      * @return object
-     * @throws \Syringe\Exception\ComponentNotFoundException
+     * @throws ComponentNotFoundException
      * @throws SyringeException
-     * @throws \ReflectionException
+     * @throws ReflectionException
      */
     public static function new(string $class): object {
         if (!self::$injector) {
@@ -27,8 +29,9 @@ class Syringe {
     }
 
     /**
-     * @param SyringeRepository $repository
+     * @param SyringeRepository    $repository
      * @param SyringeInjector|null $injector
+     *
      * @return void
      */
     public static function initialize(SyringeRepository $repository, ?SyringeInjector $injector = null): void {
