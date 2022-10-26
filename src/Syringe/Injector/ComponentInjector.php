@@ -85,7 +85,7 @@ class ComponentInjector implements SyringeInjector {
             throw new SyringeException('No SyringeRepository instance found.');
         }
 
-        if (!empty($this->instances[$component])) {
+        if ($this->instances->offsetExists($component)) {
             return $this->instances[$component];
         }
 

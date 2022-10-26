@@ -20,8 +20,7 @@ class Component {
         protected ?string   $name,
         protected bool      $singleton,
         protected Reflector $reflector
-    ) {
-    }
+    ) { }
 
     /**
      * @return bool
@@ -75,11 +74,11 @@ class Component {
 
     /**
      * @param Provides  $provides
-     * @param Reflector $reflection
+     * @param Reflector $reflector
      *
      * @return Component
      */
-    public static function fromProvidesAttribute(Provides $provides, Reflector $reflection): self {
-        return new self($provides->primary, $provides->name, $provides->singleton, $reflection);
+    public static function fromProvidesAttribute(Provides $provides, Reflector $reflector): self {
+        return new self($provides->primary, $provides->name, $provides->singleton, $reflector);
     }
 }
